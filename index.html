@@ -73,7 +73,11 @@
         }, 0);
         const calculatedChecksumHex = decimalToHex(calculatedChecksum);
         if (calculatedChecksumHex !== checksumHex) {
-          setErrors(['Checksum is incorrect']);
+          setErrors([
+            'Checksum is incorrect',
+            'Expected: ' + calculatedChecksumHex,
+            'Actual: ' + checksumHex,
+          ]);
           return;
         }
         setErrors([]);
