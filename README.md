@@ -1,10 +1,10 @@
-# TCP Inspect
+# IP Inspect
 
-Enter TCP data in hex format and view the data in a user-friendly format.
+Enter IP data in hex format and view the data in a user-friendly format.
 
 ## Live Page
 
-You can view the live page [here](https://klxcoder.github.io/tcp-inspect/).
+You can view the live page [here](https://klxcoder.github.io/ip-inspect/).
 
 
 ## Technologies Used
