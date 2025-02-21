@@ -28,7 +28,7 @@
         setIpBin(hexToBinary(ipHex));
       }, [ipHex]);
 
-      React.useEffect(() => {
+      const getFields = (FIELDS, ipBin) => {
         let ipBinTmp = ipBin;
         const fields = [];
         for (const field of FIELDS) {
@@ -40,10 +40,11 @@
             ipBinTmp = ipBinTmp.slice(field.length);
           }
         }
-        setFields(fields);
-      }, [ipBin]);
+        return [fields, ipBinTmp];
+      }
 
       React.useEffect(() => {
+        const [fields, ipBinTmp] = getFields(FIELDS, ipBin);
         if (fields.length === 0) {
           setErrors([]);
           return;
@@ -93,7 +94,16 @@
           return;
         }
         setErrors([]);
-      }, [fields]);
+        const [options] = getFields([
+          {
+            title: 'Options',
+            length: (ipHeaderLength - 5) * 32,
+            description: 'The options field of the packet',
+            valueFn: binaryToHex,
+          },
+        ], ipBinTmp);
+        setFields([...fields, ...options]);
+      }, [ipBin]);
 
       return (
         <div className="app">
