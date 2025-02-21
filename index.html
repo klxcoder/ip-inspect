@@ -58,11 +58,11 @@
           setErrors(['IP Header length must be at least 5']);
           return;
         }
-        if (ipHeaderLength * 32 !== ipBin.length) {
-          setErrors(['IP Header length does not match the length of IP Header']);
+        if (ipBin.length < ipHeaderLength * 32) {
+          setErrors(['The length of IP Header is not long enough']);
           return;
         }
-        const words = ipHex.match(/.{4}/g);
+        const words = ipHex.match(/.{4}/g).slice(0, ipHeaderLength * 2);
         const checksumHex = words.splice(5, 1)[0]; // remove checksum
         const calculatedChecksum = 0xffff - words.reduce((acc, hex) => {
           const sum = acc + parseInt(hex, 16);
