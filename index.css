@@ -11,3 +11,11 @@
 .errors {
   color: red;
 }
+
+table {
+  width: 90%;
+}
+
+textarea {
+  width: 90%;
+}
