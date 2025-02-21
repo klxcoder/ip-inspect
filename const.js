@@ -65,7 +65,7 @@ const FIELDS = [
     title: 'Protocol',
     length: 8,
     description: 'The protocol of the packet',
-    valueFn: binaryToDecimal,
+    valueFn: binToIpProtocol,
   },
   {
     title: 'Header Checksum',

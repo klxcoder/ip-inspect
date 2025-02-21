@@ -102,6 +102,19 @@
             valueFn: binaryToHex,
           },
         ], ipBinTmp);
+        const protocol = fields.find((field) => field.title === 'Protocol');
+        const protocolDecimal = binaryToDecimal(protocol.bin);
+        switch (protocolDecimal) {
+          case 1:
+            // Will handle ICMP
+            break;
+          case 6:
+            // Will handle TCP
+            break;
+          case 17:
+            // Will handle UDP
+            break;
+        }
         setFields([...fields, ...options]);
       }, [ipBin]);
 

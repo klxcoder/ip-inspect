@@ -38,3 +38,13 @@ function binaryToIP(binaryStr) {
 function decimalToHex(decimal) {
   return decimal.toString(16);
 }
+
+const binToIpProtocol = (bin) => {
+  const protocolDecimal = binaryToDecimal(bin);
+  const obj = {
+    1: 'ICMP',
+    6: 'TCP',
+    17: 'UDP',
+  };
+  return `${protocolDecimal} (${obj[protocolDecimal] || 'Unknown Protocol'})`;
+}
