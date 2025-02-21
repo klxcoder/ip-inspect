@@ -32,8 +32,10 @@
         .join('');
     }
 
+    const EXAMPLE_IP_HEX = '45';
+
     function App() {
-      const [ipHex, setIpHex] = React.useState('');
+      const [ipHex, setIpHex] = React.useState(EXAMPLE_IP_HEX);
       const [ipBin, setIpBin] = React.useState('');
       const [fields, setFields] = React.useState([]);
 
