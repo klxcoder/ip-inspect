@@ -34,3 +34,7 @@ function binaryToIP(binaryStr) {
   const octets = binaryStr.match(/.{8}/g).map(b => parseInt(b, 2));
   return octets.join(".");
 }
+
+function decimalToHex(decimal) {
+  return decimal.toString(16);
+}

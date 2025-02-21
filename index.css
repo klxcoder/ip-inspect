@@ -7,3 +7,7 @@
   font-family: 'Courier New', Courier, monospace;
   gap: 1rem;
 }
+
+.errors {
+  color: red;
+}

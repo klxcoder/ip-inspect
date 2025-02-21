@@ -22,13 +22,13 @@
       const [ipHex, setIpHex] = React.useState(EXAMPLE_IP_HEX);
       const [ipBin, setIpBin] = React.useState('');
       const [fields, setFields] = React.useState([]);
+      const [errors, setErrors] = React.useState([]);
 
       React.useEffect(() => {
         setIpBin(hexToBinary(ipHex));
       }, [ipHex]);
 
       React.useEffect(() => {
-
         let ipBinTmp = ipBin;
         const fields = [];
         for (const field of FIELDS) {
@@ -40,9 +40,44 @@
             ipBinTmp = ipBinTmp.slice(field.length);
           }
         }
-
         setFields(fields);
       }, [ipBin]);
+
+      React.useEffect(() => {
+        if (fields.length === 0) {
+          setErrors([]);
+          return;
+        }
+        const ipVersion = binaryToDecimal(fields[0].bin);
+        if (ipVersion !== 4) {
+          setErrors(['Only IPv4 is supported']);
+          return;
+        }
+        const ipHeaderLength = binaryToDecimal(fields[1].bin);
+        if (ipHeaderLength < 5) {
+          setErrors(['IP Header length must be at least 5']);
+          return;
+        }
+        if (ipHeaderLength * 32 !== ipBin.length) {
+          setErrors(['IP Header length does not match the length of IP Header']);
+          return;
+        }
+        const words = ipHex.match(/.{4}/g);
+        const checksumHex = words.splice(5, 1)[0]; // remove checksum
+        const calculatedChecksum = 0xffff - words.reduce((acc, hex) => {
+          const sum = acc + parseInt(hex, 16);
+          if (sum >= 0xffff) {
+            return sum - 0xffff;
+          }
+          return sum;
+        }, 0);
+        const calculatedChecksumHex = decimalToHex(calculatedChecksum);
+        if (calculatedChecksumHex !== checksumHex) {
+          setErrors(['Checksum is incorrect']);
+          return;
+        }
+        setErrors([]);
+      }, [fields]);
 
       return (
         <div className="app">
@@ -52,6 +87,11 @@
             onChange={(e) => setIpHex(ipHexFn(e.target.value))}
             placeholder="Enter IPv4 in hex format"
           />
+          <ul className="errors">
+            {errors.map((error, index) => (
+              <li key={index}>{error}</li>
+            ))}
+          </ul>
           <table className="details">
             <thead>
               <tr>
