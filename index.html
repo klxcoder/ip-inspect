@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TCP inspect</title>
+  <title>IPv4 inspect</title>
   <script src="react.development.js"></script>
   <script src="react-dom.development.js"></script>
   <script src="babel.min.js"></script>
@@ -20,11 +20,22 @@
       return '#' + Math.floor(Math.random() * 16777215).toString(16);
     }
 
+    const ipHexFn = (ipHex) => {
+      return ipHex.replace(/[^0-9A-Fa-f]/g, '').toUpperCase();
+    };
+
     function App() {
+      const [ipHex, setIpHex] = React.useState('');
 
       return (
         <div className="app">
-          TCP inspect
+          <textarea
+            type="text"
+            value={ipHex}
+            onChange={(e) => setIpHex(ipHexFn(e.target.value))}
+            placeholder="Enter IPv4 in hex format"
+          />
+          {ipHex}
         </div>
       );
     }
