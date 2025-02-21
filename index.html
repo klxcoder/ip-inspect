@@ -34,6 +34,69 @@
 
     const EXAMPLE_IP_HEX = '45';
 
+    const FIELDS = [
+      {
+        title: 'Version',
+        length: 4,
+        description: 'The version of the protocol',
+      },
+      {
+        title: 'Header Length',
+        length: 4,
+        description: 'The length of the header in 32-bit words',
+      },
+      {
+        title: 'Type of Service',
+        length: 8,
+        description: 'The type of service',
+      },
+      {
+        title: 'Total Length',
+        length: 16,
+        description: 'The total length of the packet in bytes',
+      },
+      {
+        title: 'Identification',
+        length: 16,
+        description: 'The unique identifier of the packet',
+      },
+      {
+        title: 'Flags',
+        length: 3,
+        description: 'The flags of the packet',
+      },
+      {
+        title: 'Fragment Offset',
+        length: 13,
+        description: 'The fragment offset of the packet',
+      },
+      {
+        title: 'Time to Live',
+        length: 8,
+        description: 'The time to live of the packet',
+      },
+      {
+        title: 'Protocol',
+        length: 8,
+        description: 'The protocol of the packet',
+      },
+      {
+        title: 'Header Checksum',
+        length: 16,
+        description: 'The checksum of the packet',
+      },
+      {
+        title: 'Source Address',
+        length: 32,
+        description: 'The source address of the packet',
+      },
+      {
+        title: 'Destination Address',
+        length: 32,
+        description: 'The destination address of the packet',
+      },
+    ];
+
     function App() {
       const [ipHex, setIpHex] = React.useState(EXAMPLE_IP_HEX);
       const [ipBin, setIpBin] = React.useState('');
@@ -42,6 +105,24 @@
       React.useEffect(() => {
         setIpBin(hexToBinary(ipHex));
       }, [ipHex]);
+
+      React.useEffect(() => {
+
+        let ipBinTmp = ipBin;
+        const fields = [];
+        for (const field of FIELDS) {
+          if (ipBinTmp.length >= field.length) {
+            fields.push({
+              ...field,
+              bin: ipBinTmp.slice(0, field.length),
+            });
+            ipBinTmp = ipBinTmp.slice(field.length);
+          }
+        }
+
+        setFields(fields);
+      }, [ipBin]);
+
 
       return (
         <div className="app">
@@ -58,6 +139,7 @@
                 <th>Field</th>
                 <th>Size (bits)</th>
                 <th>Description</th>
+                <th>Value (binary)</th>
               </tr>
             </thead>
             <tbody>
@@ -66,6 +148,7 @@
                   <td>{field.title}</td>
                   <td>{field.length}</td>
                   <td>{field.description}</td>
+                  <td>{field.bin}</td>
                 </tr>
               ))}
             </tbody>
