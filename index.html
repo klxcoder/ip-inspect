@@ -50,16 +50,28 @@
         }
         const ipVersion = binaryToDecimal(fields[0].bin);
         if (ipVersion !== 4) {
-          setErrors(['Only IPv4 is supported']);
+          setErrors([
+            'Only IPv4 is supported',
+            `Expected: 4`,
+            `Actual: ${ipVersion}`,
+          ]);
           return;
         }
         const ipHeaderLength = binaryToDecimal(fields[1].bin);
         if (ipHeaderLength < 5) {
-          setErrors(['IP Header length must be at least 5']);
+          setErrors([
+            'IP Header length must be at least 5',
+            `Expected: at least 5`,
+            `Actual: ${ipHeaderLength}`,
+          ]);
           return;
         }
         if (ipBin.length < ipHeaderLength * 32) {
-          setErrors(['The length of IP Header is not long enough']);
+          setErrors([
+            'The length of IP Header is not long enough',
+            `Expected: ${ipHeaderLength * 32} bits`,
+            `Actual: ${ipBin.length} bits`,
+          ]);
           return;
         }
         const words = ipHex.match(/.{4}/g).slice(0, ipHeaderLength * 2);
@@ -75,8 +87,8 @@
         if (calculatedChecksumHex !== checksumHex) {
           setErrors([
             'Checksum is incorrect',
-            'Expected: ' + calculatedChecksumHex,
-            'Actual: ' + checksumHex,
+            `Expected: 0x${calculatedChecksumHex}`,
+            `Actual: 0x${checksumHex}`,
           ]);
           return;
         }
