@@ -1,4 +1,4 @@
-const EXAMPLE_IP_HEX = '4500003C660440004006D6B57F0000017F000001';
+const EXAMPLE_IP_HEX = '4500003c660440004006d6b57f0000017f000001';
 
 const FIELDS = [
   {
@@ -32,9 +32,21 @@ const FIELDS = [
     valueFn: binaryToDecimal,
   },
   {
-    title: 'Flags',
-    length: 3,
-    description: 'The flags of the packet',
+    title: 'Reserved bit',
+    length: 1,
+    description: 'Reserved bit',
+    valueFn: binaryToDecimal,
+  },
+  {
+    title: "Don't Fragment",
+    length: 1,
+    description: "Don't fragment bit",
+    valueFn: binaryToDecimal,
+  },
+  {
+    title: 'More Fragments',
+    length: 1,
+    description: 'More fragments bit',
     valueFn: binaryToDecimal,
   },
   {
@@ -59,7 +71,7 @@ const FIELDS = [
     title: 'Header Checksum',
     length: 16,
     description: 'The checksum of the packet',
-    valueFn: () => { },
+    valueFn: (bin) => `0x${binaryToHex(bin)}`,
   },
   {
     title: 'Source Address',

@@ -3,7 +3,7 @@ function getRandomColor() {
 }
 
 const ipHexFn = (ipHex) => {
-  return ipHex.replace(/[^0-9A-Fa-f]/g, '').toUpperCase();
+  return ipHex.replace(/[^0-9A-Fa-f]/g, '').toLowerCase();
 };
 
 function hexToBinary(hex) {
@@ -11,6 +11,14 @@ function hexToBinary(hex) {
   return hex
     .match(/.{1}/g) // Split each hex digit
     .map(h => parseInt(h, 16).toString(2).padStart(4, '0')) // Convert to binary and pad
+    .join('');
+}
+
+function binaryToHex(binary) {
+  if (!binary) return '';
+  return binary
+    .match(/.{4}/g) // Split into groups of 4
+    .map(b => parseInt(b, 2).toString(16)) // Convert to hex
     .join('');
 }
 
